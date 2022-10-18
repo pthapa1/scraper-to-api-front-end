@@ -1,0 +1,79 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-family: 'Roboto Serif', serif;
+  color: white;
+}
+
+body {
+  background-color: #000;
+  background-image: linear-gradient(170deg, #000 0%, #4e5c64 90%);
+  background-attachment: fixed;
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100%;
+}
+a {
+  color: #efefef;
+  text-decoration: none;
+}
+.wrapper {
+  max-width: 1550px;
+  margin: 0 auto;
+}
+.navigation {
+  background-color: #000;
+  background-image: linear-gradient(353deg, #000 0%, #4e5c64 90%);
+  border-radius: 16px;
+}
+.navigation > ul {
+  display: flex;
+  justify-content: center;
+  padding: 0.5rem;
+  height: 5vh;
+}
+.title {
+  font-family: 'Dancing Script', cursive;
+  cursor: pointer;
+  pointer-events: none;
+  font-size: 1.2rem;
+}
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-column-gap: 1em;
+  grid-auto-rows: minmax(95vh, auto);
+}
+.grid-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1em;
+  /* remove this later */
+  border: #efefef 1px solid;
+}
+@media screen and (max-width: 767px) {
+  .grid-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+  }
+}
+
+#myInput {
+  box-sizing: border-box;
+  /* background-image: url('searchicon.svg'); */
+  background-image: url('./components/images/searchicon.svg');
+  background-position: 8px 8px;
+  background-repeat: no-repeat;
+  font-size: 1.1em;
+  padding: 14px 20px 12px 45px;
+  border: none;
+  border-radius: 4px;
+}

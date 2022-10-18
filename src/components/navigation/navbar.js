@@ -1,8 +1,15 @@
-function NavigationBar(props) {
+import '../../App.css';
+
+function NavigationBar() {
   return (
     <>
-      <h3>Here is a Navigation Bar {props.name}</h3>
-      {props.submenu ? <p>{props.submenu}</p> : <p>Sub-menu does not exists</p>}
+      <nav className='navigation'>
+        <ul>
+          <a href='/'>
+            <li className='title'>Search The Address</li>
+          </a>
+        </ul>
+      </nav>
     </>
   );
 }
