@@ -1,62 +1,96 @@
 import '../../App.css';
 import AddressSection from '../body/addressSection';
 import React, { useEffect, useState } from 'react';
+import { ReactDOM } from 'react';
+import { createRoot } from 'react-dom/client';
+import Error from './error';
+
+// create element template...
+const elementFromTemplate = (html) => {
+  const template = document.createElement('template');
+  template.innerHTML = html.trim();
+  return template.content.firstElementChild;
+};
+// container that we need to append the results to
+const addressContainer = document.getElementById('address-container');
 
 function QueryAndResult() {
   const [getAddress, setGetAddress] = useState([]);
 
-  const completeAddress = () => {
-    const elementFromTemplate = (html) => {
-      const template = document.createElement('template');
-      template.innerHTML = html.trim();
-      return template.content.firstElementChild;
-    };
-    const addressContainer = document.getElementById('address-container');
+  // function loadAddresses() {
+  //   const placeName = document.getElementById('myInput').value;
+
+  //   fetch(`http://localhost:3000/address/${placeName}`, { method: 'GET' })
+  //     .then((res) => {
+  //       if (res.ok) {
+  //         return res.json().then((json) => {
+  //           console.log(json);
+  //           setGetAddress(json).then((data) => console.log(data));
+  //         });
+  //       } else {
+  //         throw res;
+  //       }
+  //     })
+  //     .then((data) => {
+  //       // setGetAddress(data);
+  //       console.log(`This is a list: ${data}`);
+  //       getAddress.forEach((location) => {
+  //         // const myElementList = elementFromTemplate(`
+  //         //     <div class="singleDetail">
+  //         //     <p class="name">${location.name}</p>
+  //         //     <p class="address">${location.address}</p>
+  //         //     <p class="phone">${location.phone}</p>
+  //         // </div>`);
+  //         // const myElementList = <AddressSection />;
+
+  //         /* location && */ addressContainer.appendChild(
+  //           <AddressSection location={location} />
+  //         );
+  //       });
+  //     })
+  //     .catch((err) => {
+  //       const myElementlist = elementFromTemplate(`
+  //       <div class="singleDetail">
+  //       <p class="message">${err}: Please Input a Valid Name. Special Characters and Empty Spaces Are Not Allowed in the Search Box.  </p>
+  //       </div>
+  //     `);
+  //       addressContainer.appendChild(myElementlist);
+  //     });
+  // }
+  async function completeAddress() {
     const placeName = document.getElementById('myInput').value;
+    const response = await fetch(`http://localhost:3000/address/${placeName}`, {
+      method: 'GET',
+    });
+    if (response.ok) {
+      const addressArray = await response.json();
+      console.log(addressArray);
+      setGetAddress(addressArray);
+      return addressArray;
+    } else {
+      return console.log(`HTTP error! Status: ${response.status}.`);
+    }
+  }
 
-    fetch(`http://localhost:3000/address/${placeName}`, { method: 'GET' })
-      .then((res) => {
-        // if (!res.ok) {
-        //   throw new Error(`HTTP error ${res.status}`);
-        // } else {
-        //   return res.json();
-        // }
-        if (res.ok) {
-          return res.json().then((json) => console.log(json));
-        }
-        throw res;
-      })
-      .then((data) => {
-        setGetAddress(data);
-        console.log(`This is a list: ${getAddress}`);
-        getAddress.forEach((location) => {
-          // const myElementList = elementFromTemplate(`
-          //     <div class="singleDetail">
-          //     <p class="name">${location.name}</p>
-          //     <p class="address">${location.address}</p>
-          //     <p class="phone">${location.phone}</p>
-          // </div>`);
-          // const myElementList = <AddressSection />;
+  //catch (error) {
+  // console.log(`Apple`);
+  // console.log(`This is the Error: ${error}`);
+  // const myElementlist = elementFromTemplate(`
+  //   <div class="singleDetail">
+  //   <p class="message">${error}: </br> Note:  Special Characters and Empty Spaces Are Not Allowed in the Search Box.  </p>
+  //   </div>
+  // `);
 
-          /* location && */ addressContainer.appendChild(
-            <AddressSection location={location} />
-          );
-        });
-      })
-      .catch((err) => {
-        const myElementlist = elementFromTemplate(`
-        <div class="singleDetail">
-        <p class="message">${err}: Please Input a Valid Name. Special Characters and Empty Spaces Are Not Allowed in the Search Box.  </p>
-        </div>
-      `);
-        addressContainer.appendChild(myElementlist);
-      });
-  };
+  // const container = createRoot(addressContainer);
+  // container.render(<Error error={error} />);
+
+  // addressContainer.appendChild(myElementlist);
+  //   }
+  // }
   useEffect(() => {
-    document
-      .querySelector('#search-btn')
-      .addEventListener('click', completeAddress);
+    completeAddress();
   }, []);
+
   return (
     <>
       <section className='grid-container'>
@@ -81,7 +115,13 @@ function QueryAndResult() {
             </svg>
           </button>
         </div>
-        <div id='address-container' className='grid-item address-details'></div>
+        <div id='address-container' className='grid-item address-details'>
+          {getAddress.length > 1 ? (
+            <p>works</p>
+          ) : (
+            <p>Please type in Place name in the search bar... </p>
+          )}
+        </div>
       </section>
     </>
   );
