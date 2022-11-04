@@ -66,6 +66,7 @@ function QueryAndResult() {
       const addressArray = await response.json();
       console.log(addressArray);
       setGetAddress(addressArray);
+      console.log(`This is getAddress: ${getAddress}`);
       return addressArray;
     } else {
       return console.log(`HTTP error! Status: ${response.status}.`);
@@ -92,7 +93,7 @@ function QueryAndResult() {
   }, []);
 
   return (
-    <>
+    <div>
       <section className='grid-container'>
         <div className='grid-item search'>
           <input
@@ -117,13 +118,20 @@ function QueryAndResult() {
         </div>
         <div id='address-container' className='grid-item address-details'>
           {getAddress.length > 1 ? (
-            <p>works</p>
+            getAddress.map((address) => {
+              <div className='singleDetail'>
+                <p className='name'>{address.name}</p>
+                <p className='address'>{address.address}</p>
+                <p className='phone'>{address.phone}</p>
+              </div>;
+            })
           ) : (
+            // <AddressSection addresses={getAddress} />
             <p>Please type in Place name in the search bar... </p>
           )}
         </div>
       </section>
-    </>
+    </div>
   );
 }
 export default QueryAndResult;
