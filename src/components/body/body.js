@@ -4,93 +4,40 @@ import React, { useEffect, useState } from 'react';
 import { ReactDOM } from 'react';
 import { createRoot } from 'react-dom/client';
 import Error from './error';
+import axios from 'axios';
 
-// create element template...
-const elementFromTemplate = (html) => {
-  const template = document.createElement('template');
-  template.innerHTML = html.trim();
-  return template.content.firstElementChild;
-};
 // container that we need to append the results to
 const addressContainer = document.getElementById('address-container');
-
+//experiment
+// const addressArray = [];
 function QueryAndResult() {
-  const [getAddress, setGetAddress] = useState([]);
+  const [addressList, setAddressList] = useState([]);
+  // const [loaading, setLoading] = useState(false);
+  // const [error, setError] = useState(false);
 
-  // function loadAddresses() {
-  //   const placeName = document.getElementById('myInput').value;
+  async function fetchAddresses() {
+    try {
+      const placeName = document.getElementById('myInput').value;
+      const response = await axios.get(
+        `http://localhost:3000/address/${placeName}`
+      );
 
-  //   fetch(`http://localhost:3000/address/${placeName}`, { method: 'GET' })
-  //     .then((res) => {
-  //       if (res.ok) {
-  //         return res.json().then((json) => {
-  //           console.log(json);
-  //           setGetAddress(json).then((data) => console.log(data));
-  //         });
-  //       } else {
-  //         throw res;
-  //       }
-  //     })
-  //     .then((data) => {
-  //       // setGetAddress(data);
-  //       console.log(`This is a list: ${data}`);
-  //       getAddress.forEach((location) => {
-  //         // const myElementList = elementFromTemplate(`
-  //         //     <div class="singleDetail">
-  //         //     <p class="name">${location.name}</p>
-  //         //     <p class="address">${location.address}</p>
-  //         //     <p class="phone">${location.phone}</p>
-  //         // </div>`);
-  //         // const myElementList = <AddressSection />;
-
-  //         /* location && */ addressContainer.appendChild(
-  //           <AddressSection location={location} />
-  //         );
-  //       });
-  //     })
-  //     .catch((err) => {
-  //       const myElementlist = elementFromTemplate(`
-  //       <div class="singleDetail">
-  //       <p class="message">${err}: Please Input a Valid Name. Special Characters and Empty Spaces Are Not Allowed in the Search Box.  </p>
-  //       </div>
-  //     `);
-  //       addressContainer.appendChild(myElementlist);
-  //     });
-  // }
-  async function completeAddress() {
-    const placeName = document.getElementById('myInput').value;
-    const response = await fetch(`http://localhost:3000/address/${placeName}`, {
-      method: 'GET',
-    });
-    if (response.ok) {
-      const addressArray = await response.json();
-      console.log(addressArray);
-      setGetAddress(addressArray);
-      console.log(`This is getAddress: ${getAddress}`);
-      return addressArray;
-    } else {
-      return console.log(`HTTP error! Status: ${response.status}.`);
+      console.log(response.data);
+      setAddressList(response.data);
+    } catch (error) {
+      console.error(error);
     }
   }
-
-  //catch (error) {
-  // console.log(`Apple`);
-  // console.log(`This is the Error: ${error}`);
-  // const myElementlist = elementFromTemplate(`
-  //   <div class="singleDetail">
-  //   <p class="message">${error}: </br> Note:  Special Characters and Empty Spaces Are Not Allowed in the Search Box.  </p>
-  //   </div>
-  // `);
-
-  // const container = createRoot(addressContainer);
-  // container.render(<Error error={error} />);
-
-  // addressContainer.appendChild(myElementlist);
-  //   }
-  // }
   useEffect(() => {
-    completeAddress();
-  }, []);
+    const preAddressArray = JSON.stringify(addressList);
+    // console.log(`${JSON.stringify(addressList)}`);
+    console.log(preAddressArray);
+    // // Experiment
+    // addressArray.push(preAddressArray);
+    // console.log(`This is addressArray: ${addressArray}`);
+
+    console.log(`This is addressList Object: ${addressList}`);
+  }, [addressList]);
 
   return (
     <div>
@@ -102,7 +49,7 @@ function QueryAndResult() {
             id='myInput'
             className='grid-item'
           />
-          <button id='search-btn' onClick={completeAddress}>
+          <button id='search-btn' onClick={fetchAddresses}>
             <svg
               stroke='currentColor'
               fill='currentColor'
@@ -117,13 +64,23 @@ function QueryAndResult() {
           </button>
         </div>
         <div id='address-container' className='grid-item address-details'>
-          {getAddress.length > 1 ? (
-            getAddress.map((address) => {
-              <div className='singleDetail'>
-                <p className='name'>{address.name}</p>
-                <p className='address'>{address.address}</p>
-                <p className='phone'>{address.phone}</p>
-              </div>;
+          {addressList.length > 1 ? (
+            // addressList.map((address) => {
+            //   <div className='singleDetail'>
+            //     <p className='name'>{address.name}</p>
+            //     <p className='address'>{address.address}</p>
+            //     <p className='phone'>{address.phone}</p>
+            //   </div>;
+            // })
+            //TODO: map over the object.
+            Object.keys(addressList).forEach((address) => {
+              return (
+                <div className='singleDetail'>
+                  <p className='name'>{address.name}</p>
+                  <p className='address'>{address.address}</p>
+                  <p className='phone'>{address.phone}</p>
+                </div>
+              );
             })
           ) : (
             // <AddressSection addresses={getAddress} />
