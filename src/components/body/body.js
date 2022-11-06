@@ -9,7 +9,7 @@ import axios from 'axios';
 // container that we need to append the results to
 const addressContainer = document.getElementById('address-container');
 //experiment
-// const addressArray = [];
+
 function QueryAndResult() {
   const [addressList, setAddressList] = useState([]);
   // const [loaading, setLoading] = useState(false);
@@ -22,21 +22,15 @@ function QueryAndResult() {
         `http://localhost:3000/address/${placeName}`
       );
 
-      console.log(response.data);
+      // console.log(response.data);
       setAddressList(response.data);
     } catch (error) {
       console.error(error);
     }
   }
   useEffect(() => {
-    const preAddressArray = JSON.stringify(addressList);
-    // console.log(`${JSON.stringify(addressList)}`);
-    console.log(preAddressArray);
-    // // Experiment
-    // addressArray.push(preAddressArray);
-    // console.log(`This is addressArray: ${addressArray}`);
-
-    console.log(`This is addressList Object: ${addressList}`);
+    // console.log(`This is addressList Object: ${addressList}`);
+    // address list is an object.
   }, [addressList]);
 
   return (
@@ -65,25 +59,21 @@ function QueryAndResult() {
         </div>
         <div id='address-container' className='grid-item address-details'>
           {addressList.length > 1 ? (
-            // addressList.map((address) => {
-            //   <div className='singleDetail'>
-            //     <p className='name'>{address.name}</p>
-            //     <p className='address'>{address.address}</p>
-            //     <p className='phone'>{address.phone}</p>
-            //   </div>;
-            // })
-            //TODO: map over the object.
-            Object.keys(addressList).forEach((address) => {
-              return (
-                <div className='singleDetail'>
-                  <p className='name'>{address.name}</p>
-                  <p className='address'>{address.address}</p>
-                  <p className='phone'>{address.phone}</p>
-                </div>
-              );
-            })
+            addressList
+              .filter((obj) => obj.hasOwnProperty('name'))
+              .forEach((location) => {
+                console.log(location.name);
+                console.log(location.address);
+                console.log(location.phone);
+                return (
+                  <div className='singleDetail'>
+                    <p className='name'>{location.name}</p>
+                    <p className='address'>{location.address}</p>
+                    <p className='phone'>{location.phone}</p>
+                  </div>
+                );
+              })
           ) : (
-            // <AddressSection addresses={getAddress} />
             <p>Please type in Place name in the search bar... </p>
           )}
         </div>
