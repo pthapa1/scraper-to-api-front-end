@@ -3,7 +3,7 @@ import '../../App.css';
 function NavigationBar() {
   return (
     <>
-      <nav className='navigation'>
+      <nav className='navigation' aria-label='Find Address'>
         <ul>
           <a href='/'>
             <li className='title'>Search The Address</li>
