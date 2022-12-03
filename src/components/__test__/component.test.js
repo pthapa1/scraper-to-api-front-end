@@ -1,9 +1,6 @@
 import {
   render,
   screen,
-  cleanup,
-  fireEvent,
-  waitFor,
   waitForElementToBeRemoved,
 } from '@testing-library/react';
 import NavigationBar from '../navigation/navbar';
@@ -36,7 +33,7 @@ describe('Static Component Testing', () => {
     const searchButton = screen.getByRole('button', { name: /search button/i });
     expect(searchButton).toBeInTheDocument();
     expect(searchButton).toBeVisible();
-    fireEvent.click(searchButton);
+    userEvent.click(searchButton);
   });
 
   test('explainer paragraph exists', () => {
@@ -87,15 +84,12 @@ describe('Dynamic Components Testing', () => {
 
   test('error Message Appears', async () => {
     render(<App />);
-
     const searchButton = screen.getByRole('button', { name: /search button/i });
     userEvent.click(searchButton);
-
     const loadingSpinner = screen.queryByRole('alert', {
       name: /loading content/i,
     });
-
-    await waitForElementToBeRemoved(() => loadingSpinner);
+    await waitForElementToBeRemoved(loadingSpinner);
 
     const errorMessage = await screen.getByRole('alert', {
       name: /error message/i,
@@ -109,5 +103,15 @@ describe('Dynamic Components Testing', () => {
       name: /loading content/i,
     });
     expect(loadingSpinner).not.toBeInTheDocument();
+  });
+
+  test('loading spinner exists', () => {
+    render(<App />);
+    const searchButton = screen.getByRole('button', { name: /search button/i });
+    userEvent.click(searchButton);
+    const loadingSpinner = screen.queryByRole('alert', {
+      name: /loading content/i,
+    });
+    expect(loadingSpinner).toBeInTheDocument();
   });
 });
