@@ -8,8 +8,13 @@ export default function search({ fetchAddresses }) {
         placeholder='Search..'
         id='myInput'
         className='grid-item'
+        aria-label='search box'
       />
-      <button id='search-btn' onClick={fetchAddresses}>
+      <button
+        aria-label='search button'
+        id='search-btn'
+        onClick={fetchAddresses}
+      >
         <svg
           stroke='currentColor'
           fill='currentColor'
