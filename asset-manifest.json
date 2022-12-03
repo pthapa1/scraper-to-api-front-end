@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/scraper-to-api-front-end/static/css/main.7a514060.css",
+    "main.js": "/scraper-to-api-front-end/static/js/main.4d02b406.js",
+    "index.html": "/scraper-to-api-front-end/index.html",
+    "main.7a514060.css.map": "/scraper-to-api-front-end/static/css/main.7a514060.css.map",
+    "main.4d02b406.js.map": "/scraper-to-api-front-end/static/js/main.4d02b406.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.7a514060.css",
+    "static/js/main.4d02b406.js"
+  ]
+}
