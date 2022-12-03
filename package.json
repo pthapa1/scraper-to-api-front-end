@@ -2,7 +2,7 @@
   "name": "scraper-to-api-front-end",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://pthapa1.github.io/",
+  "homepage": "https://pthapa1.github.io/scraper-to-api-front-end/",
   "dependencies": {
     "-": "^0.0.1",
     "@testing-library/jest-dom": "^5.14.1",
